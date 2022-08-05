@@ -14,6 +14,7 @@ import { Box } from "@mui/system";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ReCAPTCHA from "react-google-recaptcha";
 
+
 const Login = () => {
   const [verified, setVerified] = useState(false)
   const [val, setVal] = useState([
@@ -24,13 +25,14 @@ const Login = () => {
       conformpassword: "",
     },
   ]);
-  console.log(val);
+ 
 
   const onChangeHandler = (e, i) => {
     const newVal = [...val];
     newVal[i][e.target.name] = e.target.value;
     setVal(newVal);
   };
+
 
   const addMore = () => {
     setVal([...val, val]);
@@ -43,18 +45,26 @@ const Login = () => {
 
   const sumitHandler = (e) => {
     e.preventDefault();
-    setVal(val);
+    // setFormErrors(validate(val))
+   val.map((item)=>{
+    if(item.name === "" || item.email === "" || item.password === "" || item.conformpassword === ""){
+      alert("name field is empty")
+    }else{
+      alert('All is Well')
+    }
+   })
+  setVal(val)
+    
   };
   function onChange(value) {
     console.log("Captcha value:", value);
-    setVerified(true)
+    setVerified(!verified)
   }
 
   return (
     <>
-      <section>
-        <Grid container className="main-wrapper">
-          <Grid item>
+      <section className="container_main">
+       
             <Card className="card_wrap">
               <CardContent>
                 <form onSubmit={sumitHandler}>
@@ -68,16 +78,16 @@ const Login = () => {
                   >
                     <div className="user_img">
                       <Avatar
-                        alt="Travis Howard"
-                        sx={{ width: 75, height: 75 }}
+                        alt="T"
+                        sx={{ width: 60, height: 60 }}
                         src="/static/images/avatar/2.jpg"
                       />
                     </div>
                     <Typography
                       variant="h6"
-                      sx={{ textAlign: "center", my: 2 }}
+                      sx={{ textAlign: "center", my: 2}}
                     >
-                      Login Form
+                      Registration Form
                     </Typography>
                     {val.map((item, i) => (
                       <div
@@ -106,6 +116,7 @@ const Login = () => {
                               <CancelIcon />
                             </IconButton>
                           </div>
+
                         ) : null}
                         <div>
                           <TextField
@@ -117,6 +128,7 @@ const Login = () => {
                             name="name"
                             fullWidth
                           />
+                          <p>{}</p>
                         </div>
                         <div>
                           <TextField
@@ -151,35 +163,43 @@ const Login = () => {
                             fullWidth
                           />
                         </div>
-                        <div className="captcha">
-                          <ReCAPTCHA
-                            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-                            onChange={onChange}
-                          />
-                        </div>
+                        
+                       
                       </div>
                     ))}
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginTop: "1.5rem",
-                      }}
-                    >
-                      <Button variant="contained" disabled={!verified} sx={{ mx: 2 }} type="submit">
-                        Summit
-                      </Button>
-                      <Button variant="contained"  onClick={addMore}>
+                    
+                          <div style={{textAlign: "end"}}>
+                          <Button variant="outlined" size="small" onClick={addMore}>
                         Add More
                       </Button>
+                          </div>
+
+                          <div>
+                          <ReCAPTCHA
+                            sitekey="6Lc3mEshAAAAALvoXGzqKsxMivoqbnccfPr0OtZw"
+                            onChange={onChange}
+                          />
+                          </div>
+                       
+                        
+                    <div
+                      style={{
+                        textAlign:"center",
+                        marginTop: "1rem",
+                      }}
+                      className="sumit_btn"
+                    >
+                       
+                      <Button variant="contained" size="small" type="submit">
+                        Summit
+                      </Button>
+                      
                     </div>
                   </Box>
                 </form>
               </CardContent>
             </Card>
-          </Grid>
-        </Grid>
+        
       </section>
     </>
   );
